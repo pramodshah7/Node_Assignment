@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-exports.getAllNearByPlaces = (req, res) => {
+exports.getAllNearByPlaces = async (req, res) => {
   let pincode = req.params.pincode;
   const options = {
     method: 'GET',
@@ -11,7 +11,7 @@ exports.getAllNearByPlaces = (req, res) => {
     }
   };
   // it validates the  pincode
-  axios.request(options).then((response) => {
+  await axios.request(options).then(async (response) => {
     if (response.data.valid) {
       const options = {
         method: 'POST',
@@ -25,15 +25,15 @@ exports.getAllNearByPlaces = (req, res) => {
         data: `{"searchBy":"pincode","value":${pincode}}`
       };
       //it returns all the nearby places
-      axios.request(options).then((results) => {
-        res.status(200).send({ count: results.data.length, results: results.data });
-      }).catch((err) => {
-        res.send({ message: err })
+      await axios.request(options).then((results) => {
+        return res.status(200).send({ count: results.data.length, results: results.data });
+      }).catch((error) => {
+        return res.send({ msg: error.message })
       });
     } else {
-      res.send({ message: "Pincode is not valid!" })
+      return res.send({ message: "Pincode is not valid!" })
     }
-  }).catch((err) => {
-    console.log(err.message);
+  }).catch((error) => {
+    return res.send({ msg: error.message });
   });
 }
