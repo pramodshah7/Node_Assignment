@@ -25,7 +25,7 @@ exports.getAllNearByPlaces = async (req, res) => {
       };
       //it returns all the nearby places
       await axios.request(options).then((results) => {
-        return res.status(200).send({ count: results.data.length, results: results.data });
+        return res.status(200).send({ message: "Success", count: results.data.length, results: results.data });
       }).catch((error) => {
         return res.send({ msg: error.message })
       });

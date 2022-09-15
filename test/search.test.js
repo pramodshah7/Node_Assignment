@@ -11,6 +11,7 @@ describe('/GET all the nearby places by pincode', () => {
       .get('/search/110078')
       .end((err, res) => {
         res.should.have.status(200);
+        res.body.should.have.property('message').eql('Success');
         done();
       });
   });
